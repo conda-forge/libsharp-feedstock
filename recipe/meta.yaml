@@ -40,6 +40,7 @@ requirements:
     - llvm-openmp >=4.0.1  # [osx]
     - {{ mpi }}  # [mpi != 'nompi']
     - python
+    - pip
     - setuptools
     - cython
     - numpy
