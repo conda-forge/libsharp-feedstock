@@ -5,9 +5,7 @@ set -e
 autoconf
 
 config_mpi=""
-if [ "x$mpi" = "xnompi" ]; then
-    export CC=$(basename ${CC})
-else
+if [ "x$mpi" != "xnompi" ]; then
     export CC=mpicc
     export LIBSHARP_MPI=1
     config_mpi="--enable-mpi"
@@ -73,4 +71,4 @@ fi
 cd python
 export LIBSHARP="${PREFIX}"
 export LDSHARED="${CC} -shared"
-${PYTHON} setup.py install --prefix="${PREFIX}"
+"${PYTHON}" -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
