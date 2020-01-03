@@ -71,4 +71,4 @@ fi
 cd python
 export LIBSHARP="${PREFIX}"
 export LDSHARED="${CC} -shared"
-"${PYTHON}" -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
+${PYTHON} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
