@@ -1,6 +1,21 @@
 {% set name = "libsharp" %}
 {% set version = "1.0.0" %}
 
+{% set build = 1001 %}
+
+{% set mpi = mpi or 'nompi' %}
+
+{% if mpi == 'nompi' %}
+{% set mpi_prefix = "nompi" %}
+{% else %}
+{% set mpi_prefix = "mpi_" + mpi %}
+{% endif %}
+
+# Prioritize non-MPI version with the build number
+{% if mpi == 'nompi' %}
+{% set build = build + 100 %}
+{% endif %}
+
 package:
   name: {{ name|lower }}
   version: {{ version }}
@@ -10,9 +25,11 @@ source:
   sha256: ca7cc7790c98bd5637a8a3d84460c02a54e5132b3184e713e596cd70c3cd59c0
   patches:
     - configure.ac.patch  # [osx]
+    - setup.py.patch
 
 build:
-  number: 1000
+  number: {{ build }}
+  string: "{{ mpi_prefix }}_py{{ py }}h{{ PKG_HASH }}_{{ build }}"
   skip: True  # [win]
 
 requirements:
@@ -21,8 +38,17 @@ requirements:
     - autoconf
   host:
     - llvm-openmp >=4.0.1  # [osx]
+    - {{ mpi }}  # [mpi != 'nompi']
+    - python
+    - pip
+    - setuptools
+    - cython
+    - numpy
   run:
     - llvm-openmp >=4.0.1  # [osx]
+    - {{ mpi }}  # [mpi != 'nompi']
+    - python
+    - numpy
 
 test:
   commands:
@@ -38,3 +64,4 @@ about:
 extra:
   recipe-maintainers:
     - beckermr
+    - tskisner
