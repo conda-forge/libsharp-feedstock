@@ -56,7 +56,7 @@ test:
 
 about:
   home: https://github.com/Libsharp/libsharp.git
-  license: GLP 2.0
+  license: GLP-2.0-only
   license_family: GPL
   license_file: COPYING
   summary: Library for fast spherical harmonic transforms, see http://arxiv.org/abs/1303.4945
