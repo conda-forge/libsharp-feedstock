@@ -1,7 +1,7 @@
 {% set name = "libsharp" %}
 {% set version = "1.0.0" %}
 
-{% set build = 1001 %}
+{% set build = 1002 %}
 
 {% set mpi = mpi or 'nompi' %}
 
