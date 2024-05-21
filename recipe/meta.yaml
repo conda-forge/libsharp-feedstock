@@ -1,7 +1,7 @@
 {% set name = "libsharp" %}
 {% set version = "1.0.0" %}
 
-{% set build = 1005 %}
+{% set build = 1006 %}
 
 {% set mpi = mpi or 'nompi' %}
 
@@ -35,6 +35,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - autoconf
   host:
     - llvm-openmp >=4.0.1  # [osx]
