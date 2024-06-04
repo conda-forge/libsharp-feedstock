@@ -30,13 +30,14 @@ source:
 build:
   number: {{ build }}
   string: "{{ mpi_prefix }}_py{{ py }}h{{ PKG_HASH }}_{{ build }}"
-  skip: True  # [win]
+  skip: true  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ stdlib("c") }}
     - autoconf
+    - make
   host:
     - llvm-openmp >=4.0.1  # [osx]
     - {{ mpi }}  # [mpi != 'nompi']
