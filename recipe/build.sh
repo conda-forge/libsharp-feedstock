@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 autoconf
 
@@ -34,37 +34,16 @@ cp -R auto/bin/* ${PREFIX}/bin
 declare -a testcoms=("acctest" "test healpix 2048 -1 1024 -1 0 1" "test fejer1 2047 -1 -1 4096 2 1" "test gauss 2047 -1 -1 4096 0 2")
 
 export OMP_NUM_THREADS=2
-if [ "x$mpi" = "xopenmpi" ]; then
-    # Using OpenMPI
+if [ "$mpi" != "nompi" ]; then
+    # Using MPI
     for com in "${testcoms[@]}"; do
-        echo mpirun --allow-run-as-root \
-        --mca btl self,tcp \
-        --mca plm isolated \
-        --mca rmaps_base_oversubscribe yes \
-        --mca btl_vader_single_copy_mechanism none \
-        -np 2 sharp_testsuite ${com}
-        mpirun --allow-run-as-root \
-        --mca btl self,tcp \
-        --mca plm isolated \
-        --mca rmaps_base_oversubscribe yes \
-        --mca btl_vader_single_copy_mechanism none \
-        -np 2 sharp_testsuite ${com}
+        mpiexec -n 2 sharp_testsuite ${com}
     done
 else
-    if [ "x$mpi" = "xmpich" ]; then
-        # Using MPICH
-        for com in "${testcoms[@]}"; do
-            export HYDRA_LAUNCHER=fork
-            echo mpirun -np 2 sharp_testsuite ${com}
-            mpirun -np 2 sharp_testsuite ${com}
-        done
-    else
-        # No MPI
-        for com in "${testcoms[@]}"; do
-            echo sharp_testsuite ${com}
-            sharp_testsuite ${com}
-        done
-    fi
+    # No MPI
+    for com in "${testcoms[@]}"; do
+        sharp_testsuite ${com}
+    done
 fi
 
 # Install python bindings
