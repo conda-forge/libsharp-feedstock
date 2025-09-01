@@ -11,6 +11,8 @@ if [ "x$mpi" != "xnompi" ]; then
     config_mpi="--enable-mpi"
 fi
 
+export CFLAGS="${CFLAGS} -Wno-implicit-function-declaration"
+
 ./configure ${config_mpi} \
 --enable-openmp \
 --enable-noisy-make \
